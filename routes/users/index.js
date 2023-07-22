@@ -13,7 +13,7 @@ router.post('/login', userControllers.login);
 router.post('/logout', userControllers.logout);
 
 // Get current user profile route
-router.get('/profile', userControllers.getCurrentUserProfile);
+router.get('/profile/:Id', userControllers.getCurrentUserProfile);
 
 // Update user profile route
 router.put('/profile', userControllers.updateUserProfile);

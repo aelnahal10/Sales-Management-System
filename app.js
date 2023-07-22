@@ -1,5 +1,17 @@
 const express = require('express');
 const userRoutes = require('./routes/users'); // Assuming your entry point is at the root directory
+const mysql = require('mysql2');
+const pool = require('./database');  // Initialize the pool when the app starts
+
+
+// Load environment variables (assuming you're using dotenv)
+require('dotenv').config();
+
+
+
+
+
+
 const app = express();
 
 // Middlewares
