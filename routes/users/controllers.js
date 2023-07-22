@@ -1,6 +1,10 @@
 // controllers.js in the /users directory
+const jwt = require('jsonwebtoken');
 const dbPool = require('../../database');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
+
+const { expiresInToMilliseconds } = require('../../utils/tokenHelper');
 
 
 
@@ -28,7 +32,7 @@ exports.signUp = (req, res, next) => {
 // Handle user login
 exports.login = async (req, res, next) => {
     const { email, password } = req.body;
-    
+
     const query = 'SELECT * FROM users WHERE email = ?';
     dbPool.query(query, [email], (err, results) => {
         if (err) {
@@ -39,7 +43,7 @@ exports.login = async (req, res, next) => {
         }
 
         const user = results[0];
-        
+
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
                 return res.status(500).json({ error: 'Error verifying password' });
@@ -48,13 +52,22 @@ exports.login = async (req, res, next) => {
                 return res.status(401).json({ error: 'Invalid credentials' });
             }
 
-            //add sessions and auth tokens
-            
-            //req.session.user = user;
+            const tokenPayload = { userId: user.id, email: user.email }; 
+            const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_EXPIRATION });
+
+            const maxAge = expiresInToMilliseconds(process.env.TOKEN_EXPIRATION);
+
+            res.cookie('auth_token', token, {
+                httpOnly: true,
+                maxAge: maxAge,
+                // Other cookie options like 'secure: true' if using HTTPS
+            });
+
             res.send('Logged in successfully');
         });
     });
 };
+
 
 
 // Handle user logout

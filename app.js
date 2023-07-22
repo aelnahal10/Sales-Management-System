@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/users'); // Assuming your entry point is at the root directory
 const mysql = require('mysql2');
 const pool = require('./database');  // Initialize the pool when the app starts
+const cookieParser = require('cookie-parser');
 
 
 // Load environment variables (assuming you're using dotenv)
@@ -16,6 +17,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+app.use(cookieParser());
 
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);

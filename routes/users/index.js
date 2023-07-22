@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 
-
+const validateToken = require('../../middleware/validateToken');
 
 
 
@@ -15,15 +15,15 @@ router.post('/signup', userControllers.signUp);
 router.post('/login', userControllers.login);
 
 // Logout route
-router.post('/logout', userControllers.logout);
+router.post('/logout', validateToken, userControllers.logout);
 
 // Get current user profile route
-router.get('/profile/:Id', userControllers.getCurrentUserProfile);
+router.get('/profile/:Id', validateToken, userControllers.getCurrentUserProfile);
 
 // Update user profile route
-router.put('/profile', userControllers.updateUserProfile);
+router.put('/profile', validateToken, userControllers.updateUserProfile);
 
 // (Optional) Delete user account - use with caution!
-router.delete('/profile', userControllers.deleteUserProfile);
+router.delete('/profile', validateToken, userControllers.deleteUserProfile);
 
 module.exports = router;
