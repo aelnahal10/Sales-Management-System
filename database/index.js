@@ -1,8 +1,7 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-const DATABASE_URL = process.env.DB_URL;
-
+const DATABASE_URL='mysql://vd23hxqhwdiqxcool2p6:************@aws.connect.psdb.cloud/sms?ssl={"rejectUnauthorized":true}'
 const databaseUrl = new URL(DATABASE_URL);
 
 // Create a connection pool
@@ -12,7 +11,7 @@ const pool = mysql.createPool({
     user: databaseUrl.username,
     database: databaseUrl.pathname.substring(1), 
     password: databaseUrl.password,
-    ssl: { rejectUnauthorized: true }
+    ssl: { rejectUnauthorized: true }  // You might want to adjust this part based on your actual SSL settings
 });
 
 pool.on('connection', (connection) => {

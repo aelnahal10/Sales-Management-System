@@ -357,6 +357,60 @@ exports.deleteAddress = (req, res) => {
     });
 };
 
+// Add a product to the user's cart
+exports.addToCart = (req, res) => {
+    const { productId, quantity } = req.body;
+    const userId = req.user.id; // Assuming you have user's info in req object
+
+    const query = 'INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + ?';
+    
+    dbPool.query(query, [userId, productId, quantity, quantity], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error adding product to cart' });
+        }
+        res.send('Product added to cart successfully');
+    });
+};
+
+// Update a product in the user's cart
+exports.updateCart = (req, res) => {
+    const productId = req.params.productId;
+    const { quantity } = req.body;
+    const userId = req.user.id; 
+
+    const query = 'UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?';
+    
+    dbPool.query(query, [quantity, userId, productId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error updating cart' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Product not found in cart' });
+        }
+        res.send('Cart updated successfully');
+    });
+};
+
+// Remove a product from the user's cart
+exports.removeFromCart = (req, res) => {
+    const productId = req.params.productId;
+    const userId = req.user.id; 
+
+    const query = 'DELETE FROM cart WHERE user_id = ? AND product_id = ?';
+    
+    dbPool.query(query, [userId, productId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error removing product from cart' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Product not found in cart' });
+        }
+        res.send('Product removed from cart successfully');
+    });
+};
+
+// Checkout the user's cart
+
 // Checkout
 exports.checkout = async (req, res) => {
     const userId = req.body.userId;
