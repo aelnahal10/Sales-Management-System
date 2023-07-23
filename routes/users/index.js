@@ -26,4 +26,34 @@ router.put('/profile', validateToken, userControllers.updateUserProfile);
 // (Optional) Delete user account - use with caution!
 router.delete('/profile', validateToken, userControllers.deleteUserProfile);
 
+
+// Routes for products
+router.post('/product', productControllers.addProduct);
+router.put('/product/:id', productControllers.updateProduct);
+router.delete('/product/:id', productControllers.deleteProduct);
+router.get('/products/search', productControllers.searchProducts);
+router.get('/products/filter', productControllers.filterAndSortProducts);
+
+
+// Routes for orders
+router.post('/order', orderControllers.placeOrder);
+router.put('/order/:id/status', orderControllers.updateOrderStatus);
+router.get('/orders/:userId', orderControllers.viewOrderHistory);
+
+// Routes for Profile Management
+router.put('/user/profile', userControllers.updateUserProfile);
+router.post('/user/password-reset', userControllers.passwordReset);
+router.post('/user/address', userControllers.addAddress);
+router.put('/user/address/:addressId', userControllers.updateAddress);
+router.delete('/user/address/:addressId', userControllers.deleteAddress);
+
+// Routes for Cart Management
+router.post('/user/cart/add', cartControllers.addToCart);
+router.put('/user/cart/update/:productId', cartControllers.updateCart);
+router.delete('/user/cart/remove/:productId', cartControllers.removeFromCart);
+router.post('/user/cart/checkout', cartControllers.checkout);
+
+// Route for Checkout
+router.post('/user/cart/checkout', cartControllers.checkout);
+
 module.exports = router;
