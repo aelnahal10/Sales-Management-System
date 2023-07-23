@@ -1,0 +1,38 @@
+{
+  "development": {
+    "username": "vd23hxqhwdiqxcool2p6",
+    "password": "pscale_pw_McOOHhd82ZIMKgp7Xwj0LgmmTpNLa9axPdwQPHRMC5J",
+    "database": "sms",
+    "host": "aws.connect.psdb.cloud",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": true
+      }
+    }
+  },
+  "test": {
+    "username": "vd23hxqhwdiqxcool2p6",
+    "password": "pscale_pw_McOOHhd82ZIMKgp7Xwj0LgmmTpNLa9axPdwQPHRMC5J",
+    "database": "sms",
+    "host": "aws.connect.psdb.cloud",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": true
+      }
+    }
+  },
+  "production": {
+    "username": "vd23hxqhwdiqxcool2p6",
+    "password": "pscale_pw_McOOHhd82ZIMKgp7Xwj0LgmmTpNLa9axPdwQPHRMC5J",
+    "database": "sms",
+    "host": "aws.connect.psdb.cloud",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": true
+      }
+    }
+  }
+}

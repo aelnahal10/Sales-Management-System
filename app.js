@@ -1,22 +1,15 @@
 const express = require('express');
-const userRoutes = require('./routes/users'); // Assuming your entry point is at the root directory
-const mysql = require('mysql2');
-const pool = require('./database');  // Initialize the pool when the app starts
+const userRoutes = require('./routes/users');
+const db = require('./database');  // Import the database configuration
 const cookieParser = require('cookie-parser');
-
 
 // Load environment variables (assuming you're using dotenv)
 require('dotenv').config();
 
-
-
-
-
-
 const app = express();
 
 // Middlewares
-app.use(express.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+app.use(express.json());
 app.use(cookieParser());
 
 app.use((req, res, next) => {
@@ -41,5 +34,11 @@ app.use((err, req, res, next) => {
 // Set port
 const port = process.env.PORT || 3000;
 
-// Start server
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// Connect to the database and start the server
+db.sequelize.sync()
+    .then(() => {
+        app.listen(port, () => console.log(`Server running on port ${port}`));
+    })
+    .catch(error => {
+        console.error('Unable to connect to the database:', error);
+    });
